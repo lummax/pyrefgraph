@@ -13,7 +13,8 @@ setuptools.setup(
     long_description_content_type='text/markdown',
     url='https://github.com/lummax/pyrefgraph',
     packages=['reference_graph'],
-    install_requires=['pytest', 'typing', 'pathlib'],
+    install_requires=['typing', 'pathlib'],
+    tests_require=['pytest', 'pytest-mypy'],
     classifiers=(
         'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3',
