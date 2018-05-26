@@ -7,9 +7,9 @@ import reference_graph
 def parse_args():
     # type: () -> argparse.Namespace
     parser = argparse.ArgumentParser()
-    parser.add_argument('entry',
-                        help='Entry point script or module for reference '
-                             'analysis')
+    parser.add_argument(
+        "entry", help="Entry point script or module for reference " "analysis"
+    )
     return parser.parse_args()
 
 
@@ -23,5 +23,5 @@ def main():
     return 0
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     raise SystemExit(main())
