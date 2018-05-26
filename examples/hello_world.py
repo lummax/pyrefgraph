@@ -3,6 +3,7 @@ import sys
 
 
 class VersionGetter(object):
+
     def __init__(self):
         self.version = sys.version
 
@@ -15,5 +16,5 @@ def main():
     print(vg.get_it())
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
