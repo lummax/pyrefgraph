@@ -1,6 +1,8 @@
 # coding=utf-8
 import argparse
 import pathlib
+import runpy
+
 import reference_graph
 
 
@@ -16,10 +18,11 @@ def parse_args():
 def main():
     # type: () -> int
     arguments = parse_args()
-    if pathlib.Path(arguments.entry).exists():
-        graph = reference_graph.Graph.from_script(arguments.entry)
-    else:
-        graph = reference_graph.Graph.from_module(arguments.entry)
+    with reference_graph.Analysis() as analysis:
+        if pathlib.Path(arguments.entry).exists():
+            runpy.run_path(arguments.entry, run_name="__main__")
+        else:
+            runpy.run_module(arguments.entry, run_name="__main__", alter_sys=True)
     return 0
 
 

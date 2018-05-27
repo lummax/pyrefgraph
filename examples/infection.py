@@ -1,6 +1,6 @@
 # coding=utf-8
+import reference_graph.infection
 import sys
-import reference_graph.api.infect
 
 
 class VersionGetter(object):

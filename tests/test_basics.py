@@ -4,13 +4,21 @@ import pytest
 
 
 def test_api():
-    import reference_graph.api
+    import reference_graph
 
-    reference_graph.api.run()
+    graph = reference_graph.Graph()
+    reference_graph.Analysis()
+    reference_graph.Analysis(graph)
 
 
 def test_api_infect():
-    import reference_graph.api.infect
+    import reference_graph
+
+    reference_graph.infect()
+
+
+def test_api_infect_import():
+    import reference_graph.infection
 
 
 def test_config_main():
