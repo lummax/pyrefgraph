@@ -15,7 +15,7 @@ setuptools.setup(
     packages=["reference_graph"],
     install_requires=["typing", "pathlib"],
     tests_require=["pytest"],
-    extras_require={"dev": ["pytest", "black"]},
+    extras_require={"dev": ["pytest", "black", "mypy"]},
     classifiers=(
         "Programming Language :: Python :: 2.7",
         "Programming Language :: Python :: 3",
