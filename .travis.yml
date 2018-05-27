@@ -11,5 +11,4 @@ install:
   - if [[ $TRAVIS_PYTHON_VERSION == '3.6' ]]; then pip install black; fi;
 
 script:
-  - python -m pytest
-  - if [[ $TRAVIS_PYTHON_VERSION == '3.6' ]]; then black --check reference_graph tests examples setup.py; fi;
+  - python -m pytest --runslow
