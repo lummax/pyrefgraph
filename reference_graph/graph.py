@@ -2,6 +2,7 @@
 import sys
 import runpy
 import pathlib
+import types
 import typing
 
 
@@ -30,5 +31,5 @@ class Graph(object):
         return self
 
     def _trace_function(self, frame, event, arg):
-        # type: (frame, str, typing.Any) -> typing.Callable
+        # type: (types.FrameType, str, typing.Any) -> typing.Callable
         return self._trace_function
