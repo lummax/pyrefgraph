@@ -11,4 +11,6 @@ install:
   - pip install .'[dev]'
 
 script:
+  - mypy --version || true
+  - black --version || true
   - python -m pytest --runslow
