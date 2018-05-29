@@ -4,7 +4,6 @@ import sys
 
 
 class VersionGetter(object):
-
     def __init__(self):
         self.version = sys.version
 

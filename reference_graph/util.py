@@ -3,7 +3,6 @@ import typing
 
 
 class Setup(object):
-
     def __init__(self):
         # type: () -> None
         self._is_setup = False  # type: bool

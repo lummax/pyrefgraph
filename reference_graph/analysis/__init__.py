@@ -9,7 +9,6 @@ from reference_graph.analysis import import_hook
 
 
 class Analysis(util.Setup):
-
     def __init__(self, graph=None):
         super(Analysis, self).__init__()
         self.graph = graph or rgraph.Graph()
