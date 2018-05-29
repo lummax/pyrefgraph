@@ -11,7 +11,6 @@ TraceFunction = typing.Callable[[types.FrameType, str, typing.Any], typing.Any]
 
 
 class Tracer(util.Setup):
-
     def __init__(self, graph):
         # type: (rgraph.Graph) -> None
         super(Tracer, self).__init__()

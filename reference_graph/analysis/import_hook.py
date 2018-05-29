@@ -16,7 +16,6 @@ from reference_graph import graph as rgraph
 
 
 class ImportHook(util.Setup):
-
     def __init__(self, graph):
         # type: (rgraph.Graph) -> None
         super(ImportHook, self).__init__()
