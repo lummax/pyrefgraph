@@ -1,0 +1,32 @@
+[tool.poetry]
+name = "reference_graph"
+version = "0.0.1"
+description = "Trace python object usages as a reference graph."
+authors = ["lummax <luogpg@googlemail.com>"]
+
+readme = "README.md"
+repository = "https://github.com/lummax/pyrefgraph"
+homepage = "https://github.com/lummax/pyrefgraph"
+
+classifiers = [
+        "Programming Language :: Python :: 2.7",
+        "Programming Language :: Python :: 3",
+        "License :: OSI Approved :: MIT License",
+        "Operating System :: OS Independent",
+        "Intended Audience :: Developers",
+        "Topic :: Software Development :: Libraries",
+        "Topic :: Utilities",
+]
+
+[tool.poetry.dependencies]
+python = "~2.7 || ^3.5"
+pathlib = { version = "^1.0.1", python = "< 3.4" }
+typing = { version = "^3.6.6", python = "< 3.5" }
+
+[tool.poetry.dev-dependencies]
+pytest = "^3.0"
+black = { version = "18.9b0", python = "^3.6" }
+mypy = { version = "0.650", python = "^3.4" }
+
+[tool.poetry.scripts]
+pyrefgraph = "reference_graph.config:main"
