@@ -27,11 +27,11 @@ def is_available(*args):
     return True
 
 
-def run_tool(*args):
+def run_tool(args, check_stdout=True, check_stderr=True):
     process = subprocess.Popen(args, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     (stdout, stderr) = process.communicate()
-    assert not stdout
-    assert not stderr
+    assert not check_stdout or not stdout
+    assert not check_stderr or not stderr
     assert process.returncode == 0
 
 
@@ -41,7 +41,7 @@ def run_tool(*args):
 )
 @pytest.mark.parametrize("path", SOURCE_FILES)
 def test_black(path):
-    return run_tool("black", "--check", "--quiet", path)
+    return run_tool(("black", "--check", "--quiet", path))
 
 
 @pytest.mark.slow
@@ -50,4 +50,9 @@ def test_black(path):
 )
 @pytest.mark.parametrize("path", SOURCE_PATHS)
 def test_mypy(path):
-    return run_tool("mypy", path)
+    return run_tool(("mypy", path))
+
+
+@pytest.mark.slow
+def test_pyrefgraph():
+    return run_tool(("pyrefgraph", "--help"), check_stdout=False)

@@ -34,4 +34,4 @@ def test_config_main():
     ns.entry = "invalid"
 
     with pytest.raises(ImportError):
-        reference_graph.config.main(ns)
+        reference_graph.config.run(ns)
