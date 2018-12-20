@@ -1,6 +1,4 @@
 # coding=utf-8
-import contextlib
-import typing
 
 from reference_graph import util
 from reference_graph import graph as rgraph
