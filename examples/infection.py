@@ -3,6 +3,10 @@ import reference_graph.infection
 import sys
 
 
+class OldStyle:
+    pass
+
+
 class VersionGetter(object):
     def __init__(self):
         self.version = sys.version
@@ -11,9 +15,18 @@ class VersionGetter(object):
         return self.version
 
 
+def exception():
+    raise RuntimeError("foo")
+
+
 def main():
     vg = VersionGetter()
     print(vg.get_it())
+
+    try:
+        exception()
+    except RuntimeError:
+        pass
 
 
 if __name__ == "__main__":
