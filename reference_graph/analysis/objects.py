@@ -1,6 +1,7 @@
 # coding=utf-8
 import inspect
 import pathlib
+import sys
 import typing
 import types
 
@@ -43,38 +44,46 @@ class Function(object):
 
 
 class Module(object):
-    def __init__(self, module, imported_name=None, parent=None):
-        # type: (types.ModuleType, typing.Optional[str], typing.Optional[Module]) -> None
-        self._module = module
-        self._imported_name = imported_name
-        self.parent = parent
+    def __init__(self, qualified_name, path):
+        # type: (str, typing.Optional[pathlib.Path]) -> None
+        self.qualified_name = qualified_name
+        self.path = path
 
-    @property
-    def modulename(self):
-        # type: () -> typing.Optional[str]
-        return (
-            self._imported_name or inspect.getmodulename(str(self.file_path))
-            if self.file_path
-            else None
+    @classmethod
+    def from_imported(cls, imported_module):
+        # type: (typing.Type[Module], types.ModuleType) -> Module
+        source_file = inspect.getsourcefile(imported_module)
+        return cls(
+            imported_module.__name__,
+            pathlib.Path(source_file).resolve() if source_file else None,
         )
 
     @property
-    def file_path(self):
-        # type: () -> typing.Optional[pathlib.Path]
-        try:
-            path = inspect.getsourcefile(self._module)
-        except TypeError:
-            return None
-        return pathlib.Path(path).resolve()
+    def name(self):
+        return self.qualified_name.split(".")[-1]
+
+    @property
+    def qualified_parent(self):
+        return self.qualified_name.rpartition(".")[0] or None
+
+    def __eq__(self, other):
+        return (
+            isinstance(other, Module)
+            and other.qualified_name == self.qualified_name
+            and other.path == self.path
+        )
+
+    def __ne__(self, other):
+        return not self == other
 
 
 class ObjectManager(object):
     def __init__(self):
         self.modules = dict()  # type: typing.Mapping[str, Module]
 
-    def lookup_module(self, position):
-        # type: (Position) -> typing.Optional[Module]
-        return self.modules.get(position.file)
+    def lookup_module(self, qualified_name):
+        # type: (str) -> typing.Optional[Module]
+        return self.modules.get(qualified_name)
 
     def function_from_frame(self, function_code):
         # types: (types.CodeType) -> Function
@@ -82,15 +91,19 @@ class ObjectManager(object):
         module = self.lookup_module(position)
         return Function(function_code, module)
 
-    def module_from_import(self, imported_module, imported_name=None):
-        # types: (types.ModuleType, typing.Optional[str]) -> Module
-        parent = (
-            self.module_from_import(imported_module.__parent__)
-            if getattr(imported_module, "__parent__", None)
-            else None
-        )
-        module = Module(imported_module, imported_name, parent)
-        module_file = module.file_path
-        if module_file:
-            self.modules[module_file] = module
-        return module
+    def module_from_imported(self, imported_module):
+        # types: (types.ModuleType) -> Module
+        module = Module.from_imported(imported_module)
+
+        if module.qualified_name not in self.modules:
+            self.modules[module.qualified_name] = module
+        if module.qualified_parent and module.qualified_parent not in self.modules:
+            parent = getattr(
+                imported_module, "__parent__", sys.modules.get(module.qualified_parent)
+            )
+            list(self.module_from_imported(parent))  # consume generator
+
+        current_module = module
+        while current_module:
+            yield current_module
+            current_module = self.lookup_module(current_module.qualified_parent)

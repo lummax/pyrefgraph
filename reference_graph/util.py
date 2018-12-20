@@ -51,4 +51,4 @@ class Setup(object):
 
 
 # hack to get `builtins` and `importlib` not marked as unused
-__all__ = [Setup, builtins, importlib]
+__all__ = ["Setup", "builtins", "importlib"]
