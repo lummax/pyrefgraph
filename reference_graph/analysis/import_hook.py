@@ -1,12 +1,4 @@
 # coding=utf-8
-import sys
-
-if sys.version_info[0] >= 3:
-    import builtins
-    import importlib
-else:
-    import __builtin__ as builtins
-    import imp as importlib
 
 import types
 import typing
@@ -28,7 +20,7 @@ class ImportHook(util.Setup):
         # type: () -> None
         super(ImportHook, self).setup()
         self._cleanup_callbacks.extend(self._monkey_patch_import())
-        self._cleanup_callbacks.extend(self._monkey_patch_reload())
+        self._cleanup_callbacks.extend(self._monkey_patch_importlib())
 
     def cleanup(self):
         # type: () -> None
@@ -37,69 +29,55 @@ class ImportHook(util.Setup):
             callback = self._cleanup_callbacks.pop(0)
             callback()
 
-    def _process_module(self, imported_name, imported_module):
-        # type: (str, types.ModuleType) -> None
-        module = self.object_manager.module_from_import(imported_module, imported_name)
-        self.graph.add_module(module)
-        # TODO add imported from
+    def _process_module(self, imported_module):
+        # type: (types.ModuleType) -> None
+        for module in self.object_manager.module_from_imported(imported_module):
+            # self.graph.add_module(module) -> add edge to imported from TODO
+            pass
 
     def _monkey_patch_import(self):
-        old_import_function = builtins.__import__
+        old_import_function = util.builtins.__import__
 
         def cleanup():
-            builtins.__import__ = old_import_function
+            util.builtins.__import__ = old_import_function
 
-        def import_function(name, *args, **kwargs):
-            # type: (str, *typing.Any, **typing.Any) -> types.ModuleType
-            module = old_import_function(name, *args, **kwargs)
-            self._process_module(name, module)
+        def import_function(name, globals=None, locals=None, fromlist=(), level=0):
+            # type: (str, typing.Any, typing.Any, typing.Any, int) -> types.ModuleType
+            module = old_import_function(name, globals, locals, fromlist, level)
+
+            if fromlist:
+                self._process_module(module)
+                for part in fromlist:
+                    submodule = getattr(module, part)
+                    if submodule and isinstance(submodule, types.ModuleType):
+                        self._process_module(submodule)
+            else:
+                parts = name.split(".")
+                current_module = module
+                self._process_module(current_module)
+                for part in parts[1:]:
+                    current_module = getattr(current_module, part)
+                    if current_module and isinstance(current_module, types.ModuleType):
+                        self._process_module(current_module)
+                    else:
+                        break
             return module
 
-        builtins.__import__ = import_function
+        util.builtins.__import__ = import_function
         yield cleanup
 
-        if hasattr(importlib, "import_module"):
-            old_importlib_import = importlib.import_module
+    def _monkey_patch_importlib(self):
+        if hasattr(util.importlib, "import_module"):
+            old_importlib_import = util.importlib.import_module
 
             def cleanup_importlib():
-                importlib.import_module = old_importlib_import
+                util.importlib.import_module = old_importlib_import
 
             def importlib_import_module(name, package=None):
                 # type: (str, typing.Any) -> types.ModuleType
                 module = old_importlib_import(name, package=package)
-                self._process_module(name, module)
+                self._process_module(module)
                 return module
 
-            importlib.import_module = importlib_import_module
-            yield cleanup_importlib
-
-    def _monkey_patch_reload(self):
-        if hasattr(builtins, "reload"):
-            old_builtins_reload = builtins.reload
-
-            def cleanup_builtins():
-                builtins.reload = old_builtins_reload
-
-            def builtins_reload(name):
-                # type: (str) -> types.ModuleType
-                module = old_builtins_reload(name)
-                self._process_module(name, module)
-                return module
-
-            builtins.reload = builtins_reload
-            yield cleanup_builtins
-
-        if hasattr(importlib, "reload"):
-            old_importlib_reload = importlib.reload
-
-            def cleanup_importlib():
-                importlib.reload = old_importlib_reload
-
-            def importlib_reload(name):
-                # type: (str) -> types.ModuleType
-                module = old_importlib_reload(name)
-                self._process_module(name, module)
-                return module
-
-            importlib.reload = importlib_reload
+            util.importlib.import_module = importlib_import_module
             yield cleanup_importlib
