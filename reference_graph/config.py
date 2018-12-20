@@ -10,14 +10,13 @@ def parse_args():
     # type: () -> argparse.Namespace
     parser = argparse.ArgumentParser()
     parser.add_argument(
-        "entry", help="Entry point script or module for reference " "analysis"
+        "entry", help="Entry point script or module for reference analysis"
     )
     return parser.parse_args()
 
 
-def main():
-    # type: () -> int
-    arguments = parse_args()
+def main(arguments):
+    # type: (argparse.Namespace) -> int
     with reference_graph.Analysis() as analysis:
         if pathlib.Path(arguments.entry).exists():
             runpy.run_path(arguments.entry, run_name="__main__")
@@ -27,4 +26,4 @@ def main():
 
 
 if __name__ == "__main__":
-    raise SystemExit(main())
+    raise SystemExit(main(parse_args()))
