@@ -1,4 +1,13 @@
 # coding=utf-8
+import sys
+
+if sys.version_info[0] >= 3:
+    import builtins
+    import importlib
+else:
+    import __builtin__ as builtins
+    import imp as importlib
+
 import typing
 
 SetupChild = typing.TypeVar("SetupChild", bound="Setup")
@@ -39,3 +48,7 @@ class Setup(object):
         # type: (typing.Any, typing.Any, typing.Any) -> bool
         self.cleanup()
         return False
+
+
+# hack to get `builtins` and `importlib` not marked as unused
+__all__ = [Setup, builtins, importlib]
