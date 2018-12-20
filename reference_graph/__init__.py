@@ -1,5 +1,6 @@
 # coding=utf-8
-from reference_graph.graph import Graph
+
+from reference_graph.analysis.graph import Graph
 from reference_graph.analysis import Analysis
 
 

@@ -12,14 +12,16 @@ import types
 import typing
 
 from reference_graph import util
-from reference_graph import graph as rgraph
+from reference_graph.analysis import graph as rgraph
+from reference_graph.analysis import objects
 
 
 class ImportHook(util.Setup):
-    def __init__(self, graph):
-        # type: (rgraph.Graph) -> None
+    def __init__(self, graph, object_manager):
+        # type: (rgraph.Graph, objects.ObjectManager) -> None
         super(ImportHook, self).__init__()
         self.graph = graph
+        self.object_manager = object_manager
         self._cleanup_callbacks = list()  # type: typing.List[typing.Callable]
 
     def setup(self):
@@ -32,12 +34,14 @@ class ImportHook(util.Setup):
         # type: () -> None
         super(ImportHook, self).cleanup()
         while self._cleanup_callbacks:
-            function = self._cleanup_callbacks.pop(0)
-            function()
+            callback = self._cleanup_callbacks.pop(0)
+            callback()
 
-    def _process_module(self, name, module):
+    def _process_module(self, imported_name, imported_module):
         # type: (str, types.ModuleType) -> None
-        pass
+        module = self.object_manager.module_from_import(imported_module, imported_name)
+        self.graph.add_module(module)
+        # TODO add imported from
 
     def _monkey_patch_import(self):
         old_import_function = builtins.__import__
