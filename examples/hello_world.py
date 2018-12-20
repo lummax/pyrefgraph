@@ -2,6 +2,10 @@
 import sys
 
 
+class OldStyle:
+    pass
+
+
 class VersionGetter(object):
     def __init__(self):
         self.version = sys.version
