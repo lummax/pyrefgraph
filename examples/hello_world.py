@@ -14,9 +14,18 @@ class VersionGetter(object):
         return self.version
 
 
+def exception():
+    raise RuntimeError("foo")
+
+
 def main():
     vg = VersionGetter()
     print(vg.get_it())
+
+    try:
+        exception()
+    except RuntimeError:
+        pass
 
 
 if __name__ == "__main__":
