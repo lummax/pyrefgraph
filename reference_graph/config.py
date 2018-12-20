@@ -15,7 +15,7 @@ def parse_args():
     return parser.parse_args()
 
 
-def main(arguments):
+def run(arguments):
     # type: (argparse.Namespace) -> int
     with reference_graph.Analysis() as analysis:
         if pathlib.Path(arguments.entry).exists():
@@ -25,5 +25,10 @@ def main(arguments):
     return 0
 
 
+def main():
+    # type: () -> int
+    return run(parse_args())
+
+
 if __name__ == "__main__":
-    raise SystemExit(main(parse_args()))
+    raise SystemExit(main())
