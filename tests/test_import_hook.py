@@ -19,12 +19,7 @@ class ImportLibImportHook(import_hook.ImportHook):
 
 def test_setup_cleanup():
     def get_values():
-        return (
-            builtins.__import__,
-            getattr(importlib, "import_module", None),
-            getattr(builtins, "reload", None),
-            getattr(importlib, "reload", None),
-        )
+        return (builtins.__import__, getattr(importlib, "import_module", None))
 
     old = get_values()
     hook = import_hook.ImportHook(None, None)

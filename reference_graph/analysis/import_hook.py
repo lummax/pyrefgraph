@@ -21,8 +21,6 @@ class ImportHook(util.Setup):
         super(ImportHook, self).setup()
         self._cleanup_callbacks.extend(self._monkey_patch_import())
         self._cleanup_callbacks.extend(self._monkey_patch_importlib())
-        self._cleanup_callbacks.extend(self._monkey_patch_reload())
-        self._cleanup_callbacks.extend(self._monkey_patch_importlib_reload())
 
     def cleanup(self):
         # type: () -> None
@@ -82,36 +80,4 @@ class ImportHook(util.Setup):
                 return module
 
             util.importlib.import_module = importlib_import_module
-            yield cleanup_importlib
-
-    def _monkey_patch_reload(self):
-        if hasattr(util.builtins, "reload"):
-            old_builtins_reload = util.builtins.reload
-
-            def cleanup_builtins():
-                util.builtins.reload = old_builtins_reload
-
-            def builtins_reload(name):
-                # type: (str) -> types.ModuleType
-                module = old_builtins_reload(name)
-                self._process_module(module)
-                return module
-
-            util.builtins.reload = builtins_reload
-            yield cleanup_builtins
-
-    def _monkey_patch_importlib_reload(self):
-        if hasattr(util.importlib, "reload"):
-            old_importlib_reload = util.importlib.reload
-
-            def cleanup_importlib():
-                util.importlib.reload = old_importlib_reload
-
-            def importlib_reload(name):
-                # type: (str) -> types.ModuleType
-                module = old_importlib_reload(name)
-                self._process_module(module)
-                return module
-
-            util.importlib.reload = importlib_reload
             yield cleanup_importlib
