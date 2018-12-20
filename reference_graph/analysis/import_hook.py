@@ -37,9 +37,11 @@ class ImportHook(util.Setup):
             callback = self._cleanup_callbacks.pop(0)
             callback()
 
-    def _process_module(self, name, module):
+    def _process_module(self, imported_name, imported_module):
         # type: (str, types.ModuleType) -> None
-        pass
+        module = self.object_manager.module_from_import(imported_module, imported_name)
+        self.graph.add_module(module)
+        # TODO add imported from
 
     def _monkey_patch_import(self):
         old_import_function = builtins.__import__
