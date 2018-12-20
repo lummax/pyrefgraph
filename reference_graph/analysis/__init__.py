@@ -1,7 +1,7 @@
 # coding=utf-8
 
 from reference_graph import util
-from reference_graph import graph as rgraph
+from reference_graph.analysis import graph as rgraph
 from reference_graph.analysis import tracer, objects
 from reference_graph.analysis import import_hook
 

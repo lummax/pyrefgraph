@@ -4,7 +4,7 @@ import types
 import typing
 
 from reference_graph import util
-from reference_graph import graph as rgraph
+from reference_graph.analysis import graph as rgraph
 from reference_graph.analysis import objects
 
 TraceFunction = typing.Callable[[types.FrameType, str, typing.Any], typing.Any]
