@@ -34,8 +34,8 @@ class ImportHook(util.Setup):
         # type: () -> None
         super(ImportHook, self).cleanup()
         while self._cleanup_callbacks:
-            function = self._cleanup_callbacks.pop(0)
-            function()
+            callback = self._cleanup_callbacks.pop(0)
+            callback()
 
     def _process_module(self, name, module):
         # type: (str, types.ModuleType) -> None
