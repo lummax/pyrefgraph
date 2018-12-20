@@ -1,6 +1,8 @@
 # coding=utf-8
 import typing
 
+SetupChild = typing.TypeVar("SetupChild", bound="Setup")
+
 
 class Setup(object):
     def __init__(self):
@@ -9,8 +11,9 @@ class Setup(object):
         self._setup_handlers = list()  # type: typing.List[Setup]
 
     def _register_setup(self, instance):
-        # type: (Setup) -> None
+        # type: (Setup, SetupChild) -> SetupChild
         self._setup_handlers.append(instance)
+        return instance
 
     def setup(self):
         # type: () -> None
