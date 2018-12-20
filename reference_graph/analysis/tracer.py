@@ -5,16 +5,17 @@ import typing
 
 from reference_graph import util
 from reference_graph import graph as rgraph
-
+from reference_graph.analysis import objects
 
 TraceFunction = typing.Callable[[types.FrameType, str, typing.Any], typing.Any]
 
 
 class Tracer(util.Setup):
-    def __init__(self, graph):
-        # type: (rgraph.Graph) -> None
+    def __init__(self, graph, object_manager):
+        # type: (rgraph.Graph, objects.ObjectManager) -> None
         super(Tracer, self).__init__()
         self._old_trace_function = None  # type: typing.Optional[TraceFunction]
+        self.object_manager = object_manager
         self.graph = graph
 
     def setup(self):

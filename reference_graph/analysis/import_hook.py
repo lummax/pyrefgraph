@@ -13,13 +13,15 @@ import typing
 
 from reference_graph import util
 from reference_graph import graph as rgraph
+from reference_graph.analysis import objects
 
 
 class ImportHook(util.Setup):
-    def __init__(self, graph):
-        # type: (rgraph.Graph) -> None
+    def __init__(self, graph, object_manager):
+        # type: (rgraph.Graph, objects.ObjectManager) -> None
         super(ImportHook, self).__init__()
         self.graph = graph
+        self.object_manager = object_manager
         self._cleanup_callbacks = list()  # type: typing.List[typing.Callable]
 
     def setup(self):
