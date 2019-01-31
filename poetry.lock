@@ -1,7 +1,6 @@
 [[package]]
 category = "dev"
 description = "A small Python module for determining appropriate platform-specific dirs, e.g. a \"user data dir\"."
-marker = "python_version >= \"3.6\" and python_version < \"4.0\""
 name = "appdirs"
 optional = false
 python-versions = "*"
@@ -26,7 +25,6 @@ version = "18.2.0"
 [[package]]
 category = "dev"
 description = "The uncompromising code formatter."
-marker = "python_version >= \"3.6\" and python_version < \"4.0\""
 name = "black"
 optional = false
 python-versions = ">=3.6"
@@ -41,7 +39,6 @@ toml = ">=0.9.4"
 [[package]]
 category = "dev"
 description = "Composable command line interface toolkit"
-marker = "python_version >= \"3.6\" and python_version < \"4.0\""
 name = "click"
 optional = false
 python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
@@ -96,7 +93,6 @@ six = ">=1.0.0,<2.0.0"
 [[package]]
 category = "dev"
 description = "Optional static typing for Python"
-marker = "python_version >= \"3.4\" and python_version < \"4.0\""
 name = "mypy"
 optional = false
 python-versions = "*"
@@ -113,7 +109,6 @@ version = ">=3.5.3"
 [[package]]
 category = "dev"
 description = "Experimental type system extensions for programs checked with the mypy typechecker."
-marker = "python_version >= \"3.4\" and python_version < \"4.0\""
 name = "mypy-extensions"
 optional = false
 python-versions = "*"
@@ -127,7 +122,6 @@ version = ">=3.5.3"
 [[package]]
 category = "main"
 description = "Object-oriented filesystem paths"
-marker = "python_version < \"3.4\""
 name = "pathlib"
 optional = false
 python-versions = "*"
@@ -180,7 +174,7 @@ description = "pytest: simple powerful testing with Python"
 name = "pytest"
 optional = false
 python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
-version = "3.10.1"
+version = "4.2.0"
 
 [package.dependencies]
 atomicwrites = ">=1.0"
@@ -235,7 +229,6 @@ version = "1.12.0"
 [[package]]
 category = "dev"
 description = "Python Library for Tom's Obvious, Minimal Language"
-marker = "python_version >= \"3.6\" and python_version < \"4.0\""
 name = "toml"
 optional = false
 python-versions = "*"
@@ -244,7 +237,6 @@ version = "0.10.0"
 [[package]]
 category = "dev"
 description = "a fork of Python 2 and 3 ast modules with type comment support"
-marker = "python_version >= \"3.4\" and python_version < \"4.0\""
 name = "typed-ast"
 optional = false
 python-versions = "*"
@@ -253,14 +245,13 @@ version = "1.1.1"
 [[package]]
 category = "main"
 description = "Type Hints for Python"
-marker = "python_version >= \"3.4\" and python_version < \"3.5\" or python_version < \"3.5\""
 name = "typing"
 optional = false
 python-versions = "*"
 version = "3.6.6"
 
 [metadata]
-content-hash = "8fe2279bf1e7a57569bd2db2fd10760f7a1f883808463a60c1a12786594f312b"
+content-hash = "2641d336dd5059323ae266149310eae01e0d32f9789ff711dd7440783cb29508"
 python-versions = "~2.7 || ^3.5"
 
 [metadata.hashes]
@@ -280,7 +271,7 @@ pathlib2 = ["25199318e8cc3c25dcb45cbe084cc061051336d5a9ea2a12448d3d8cb748f742", 
 pbr = ["f59d71442f9ece3dffc17bc36575768e1ee9967756e6b6535f0ee1f0054c3d68", "f6d5b23f226a2ba58e14e49aa3b1bfaf814d0199144b95d78458212444de1387"]
 pluggy = ["447ba94990e8014ee25ec853339faf7b0fc8050cdc3289d4d71f7f410fb90095", "bde19360a8ec4dfd8a20dcb811780a30998101f078fc7ded6162f0076f50508f"]
 py = ["bf92637198836372b520efcba9e020c330123be8ce527e535d185ed4b6f45694", "e76826342cefe3c3d5f7e8ee4316b80d1dd8a300781612ddbc765c17ba25a6c6"]
-pytest = ["3f193df1cfe1d1609d4c583838bea3d532b18d6160fd3f55c9447fdca30848ec", "e246cf173c01169b9617fc07264b7b1316e78d7a650055235d6d897bc80d9660"]
+pytest = ["65aeaa77ae87c7fc95de56285282546cfa9c886dc8e5dc78313db1c25e21bc07", "6ac6d467d9f053e95aaacd79f831dbecfe730f419c6c7022cb316b365cd9199d"]
 pytest-mock = ["53801e621223d34724926a5c98bd90e8e417ce35264365d39d6c896388dcc928", "d89a8209d722b8307b5e351496830d5cc5e192336003a485443ae9adeb7dd4c0"]
 scandir = ["04b8adb105f2ed313a7c2ef0f1cf7aff4871aa7a1883fa4d8c44b5551ab052d6", "1444134990356c81d12f30e4b311379acfbbcd03e0bab591de2696a3b126d58e", "1b5c314e39f596875e5a95dd81af03730b338c277c54a454226978d5ba95dbb6", "346619f72eb0ddc4cf355ceffd225fa52506c92a2ff05318cfabd02a144e7c4e", "44975e209c4827fc18a3486f257154d34ec6eaec0f90fef0cca1caa482db7064", "61859fd7e40b8c71e609c202db5b0c1dbec0d5c7f1449dec2245575bdc866792", "a5e232a0bf188362fa00123cc0bb842d363a292de7126126df5527b6a369586a", "c14701409f311e7a9b7ec8e337f0815baf7ac95776cc78b419a1e6d49889a383", "c7708f29d843fc2764310732e41f0ce27feadde453261859ec0fca7865dfc41b", "c9009c527929f6e25604aec39b0a43c3f831d2947d89d6caaab22f057b7055c8", "f5c71e29b4e2af7ccdc03a020c626ede51da471173b4a6ad1e904f2b2e04b4bd"]
 six = ["3350809f0555b11f552448330d0b52d5f24c91a322ea4a15ef22629740f3761c", "d16a0141ec1a18405cd4ce8b4613101da75da0e9a7aec5bdd4fa804d0e0eba73"]
