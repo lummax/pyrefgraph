@@ -27,7 +27,7 @@ typing = { version = "^3.6.6", python = "< 3.5" }
 pytest = "^3.0"
 pytest-mock = "^1.10"
 black = { version = "18.9b0", python = "^3.6" }
-mypy = { version = "0.650", python = "^3.4" }
+mypy = { version = "0.670", python = "^3.4" }
 
 [tool.poetry.scripts]
 pyrefgraph = "reference_graph.config:main"
