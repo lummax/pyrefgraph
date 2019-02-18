@@ -17,18 +17,9 @@ class Position(object):
 class Function(object):
     def __init__(self, code, module):
         # type: (types.CodeType, Module) -> None
-        self._code = code
+        self.name = code.co_name
+        self.position = Position(code.co_filename, code.co_firstlineno)
         self.module = module
-
-    @property
-    def name(self):
-        # type: () -> str
-        return self._code.co_name
-
-    @property
-    def position(self):
-        # type: () -> Position
-        return Position(self._code.co_filename, self._code.co_firstlineno)
 
     def __eq__(self, other):
         # type: (object) -> bool
